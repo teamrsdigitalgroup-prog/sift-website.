@@ -25,6 +25,7 @@
         <div class="nav-links" aria-label="Page sections">
           <a href="#what-it-does">What it does</a>
           <a href="#how-it-works">How it works</a>
+          <a href="#map">The map</a>
           <a href="#pricing">Pricing</a>
         </div>
         <a class="button button-small button-primary" href="https://calendly.com/the-tech-guy-rawat/15min" target="_blank" rel="noopener noreferrer">
@@ -51,7 +52,7 @@
               <div class="chat-topbar">
                 <div>
                   <span class="chat-title">Sift</span>
-                  <span class="chat-status">watching today</span>
+                  <span class="chat-status"><span class="status-dot" aria-hidden="true"></span>watching today</span>
                 </div>
                 <span class="live-pill">Live</span>
               </div>
@@ -68,9 +69,9 @@
                     <div class="sift-answer" data-answer>
                       <p>Today is handled.</p>
                       <ul class="data-lines" aria-label="Today’s numbers">
-                        <li><strong>14</strong> new leads today</li>
-                        <li><strong>9</strong> replied to on WhatsApp &amp; Instagram automatically</li>
-                        <li><strong>2</strong> deals closed. No one had to chase them.</li>
+                        <li><strong data-count="14">14</strong> new leads today</li>
+                        <li><strong data-count="9">9</strong> replied to on WhatsApp &amp; Instagram automatically</li>
+                        <li><strong data-count="2">2</strong> deals closed. No one had to chase them.</li>
                       </ul>
                     </div>
                   </div>
@@ -105,18 +106,30 @@
             </div>
           </div>
           <div class="flow-panel reveal" aria-label="Channels flowing into Sift">
-            <div class="channel-list" aria-hidden="true">
-              <span>WhatsApp</span>
-              <span>Instagram</span>
-              <span>Gmail</span>
-              <span>Calls</span>
-            </div>
-            <div class="flow-lines" aria-hidden="true">
-              <span></span><span></span><span></span><span></span>
-            </div>
-            <div class="single-chat" aria-hidden="true">
-              <span class="mini-dot"></span>
-              Ask Sift
+            <div class="connection-visual" aria-hidden="true">
+              <svg class="connection-svg" viewBox="0 0 360 320" role="img" aria-label="Customer channels flowing into Sift">
+                <path id="path-whatsapp" class="connection-path" d="M74 68 C120 86, 136 130, 180 160"></path>
+                <path id="path-instagram" class="connection-path" d="M286 68 C240 88, 224 130, 180 160"></path>
+                <path id="path-gmail" class="connection-path" d="M74 252 C118 232, 135 190, 180 160"></path>
+                <path id="path-calls" class="connection-path" d="M286 252 C240 232, 225 190, 180 160"></path>
+                <circle class="connection-pulse" r="4">
+                  <animateMotion dur="4.8s" repeatCount="indefinite" path="M74 68 C120 86, 136 130, 180 160"></animateMotion>
+                </circle>
+                <circle class="connection-pulse" r="4">
+                  <animateMotion dur="4.8s" begin="0.7s" repeatCount="indefinite" path="M286 68 C240 88, 224 130, 180 160"></animateMotion>
+                </circle>
+                <circle class="connection-pulse" r="4">
+                  <animateMotion dur="4.8s" begin="1.4s" repeatCount="indefinite" path="M74 252 C118 232, 135 190, 180 160"></animateMotion>
+                </circle>
+                <circle class="connection-pulse" r="4">
+                  <animateMotion dur="4.8s" begin="2.1s" repeatCount="indefinite" path="M286 252 C240 232, 225 190, 180 160"></animateMotion>
+                </circle>
+              </svg>
+              <span class="channel-node whatsapp">WhatsApp</span>
+              <span class="channel-node instagram">Instagram</span>
+              <span class="channel-node gmail">Gmail</span>
+              <span class="channel-node calls">Calls</span>
+              <span class="sift-node">Sift</span>
             </div>
             <p>That's the entire interface. Not a dashboard. Not a CRM you have to learn. A conversation with the one system that's already watching everything.</p>
           </div>
@@ -129,7 +142,11 @@
             <p class="eyebrow">What's actually running underneath</p>
             <h2>Quiet systems doing the work you do not have time to do.</h2>
           </div>
-          <div class="steps">
+          <div class="steps sequence reveal">
+            <svg class="sequence-line" viewBox="0 0 100 100" preserveAspectRatio="none" aria-hidden="true">
+              <path class="sequence-path sequence-path-desktop" d="M1 50 H99"></path>
+              <path class="sequence-path sequence-path-mobile" d="M50 1 V99"></path>
+            </svg>
             <article class="step-card reveal">
               <span class="step-number">01</span>
               <h3>It connects to where your customers already are</h3>
@@ -146,6 +163,102 @@
               <p>Skip the dashboard. Just ask Sift what happened today, this week, or with a specific customer, in plain language.</p>
             </article>
           </div>
+        </div>
+      </section>
+
+      <section id="map" class="section-pad map-section">
+        <div class="container">
+          <div class="section-heading reveal">
+            <p class="eyebrow">The whole system, opened up</p>
+            <h2>One idea, branching into everything it actually does.</h2>
+          </div>
+
+          <div class="mindmap reveal" data-mindmap aria-label="Interactive map of how Sift works, expandable by section">
+            <ul class="mm-tree" data-mm-root>
+              <li class="mm-node mm-root" data-mm-item>
+                <button class="mm-bubble mm-bubble-root" type="button" data-mm-toggle aria-expanded="false">
+                  <span class="mm-dot" aria-hidden="true"></span>
+                  <span class="mm-label">Business automation for founders</span>
+                  <span class="mm-chev" aria-hidden="true">+</span>
+                </button>
+
+                <ul class="mm-children" data-mm-children>
+                  <li class="mm-node" data-mm-item>
+                    <button class="mm-bubble mm-bubble-branch" type="button" data-mm-toggle aria-expanded="false">
+                      <span class="mm-dot" aria-hidden="true"></span>
+                      <span class="mm-label">Founder bottlenecks</span>
+                      <span class="mm-chev" aria-hidden="true">+</span>
+                    </button>
+                    <ul class="mm-children" data-mm-children>
+                      <li class="mm-node mm-leaf" data-mm-item><span class="mm-bubble mm-bubble-leaf"><span class="mm-dot" aria-hidden="true"></span><span class="mm-label">Cognitive labor exhaustion</span></span></li>
+                      <li class="mm-node mm-leaf" data-mm-item><span class="mm-bubble mm-bubble-leaf"><span class="mm-dot" aria-hidden="true"></span><span class="mm-label">Unread DMs and WhatsApp</span></span></li>
+                      <li class="mm-node mm-leaf" data-mm-item><span class="mm-bubble mm-bubble-leaf"><span class="mm-dot" aria-hidden="true"></span><span class="mm-label">Scattered lead data</span></span></li>
+                    </ul>
+                  </li>
+
+                  <li class="mm-node" data-mm-item>
+                    <button class="mm-bubble mm-bubble-branch" type="button" data-mm-toggle aria-expanded="false">
+                      <span class="mm-dot" aria-hidden="true"></span>
+                      <span class="mm-label">Invisible nervous system</span>
+                      <span class="mm-chev" aria-hidden="true">+</span>
+                    </button>
+                    <ul class="mm-children" data-mm-children>
+                      <li class="mm-node" data-mm-item>
+                        <button class="mm-bubble mm-bubble-sub" type="button" data-mm-toggle aria-expanded="false">
+                          <span class="mm-dot" aria-hidden="true"></span>
+                          <span class="mm-label">Lead processing</span>
+                          <span class="mm-chev" aria-hidden="true">+</span>
+                        </button>
+                        <ul class="mm-children" data-mm-children>
+                          <li class="mm-node mm-leaf" data-mm-item><span class="mm-bubble mm-bubble-leaf"><span class="mm-dot" aria-hidden="true"></span><span class="mm-label">Instant capture</span></span></li>
+                          <li class="mm-node mm-leaf" data-mm-item><span class="mm-bubble mm-bubble-leaf"><span class="mm-dot" aria-hidden="true"></span><span class="mm-label">Instagram / WhatsApp integration</span></span></li>
+                          <li class="mm-node mm-leaf" data-mm-item><span class="mm-bubble mm-bubble-leaf"><span class="mm-dot" aria-hidden="true"></span><span class="mm-label">Web form aggregation</span></span></li>
+                        </ul>
+                      </li>
+                      <li class="mm-node" data-mm-item>
+                        <button class="mm-bubble mm-bubble-sub" type="button" data-mm-toggle aria-expanded="false">
+                          <span class="mm-dot" aria-hidden="true"></span>
+                          <span class="mm-label">Centralized funnel</span>
+                          <span class="mm-chev" aria-hidden="true">+</span>
+                        </button>
+                        <ul class="mm-children" data-mm-children>
+                          <li class="mm-node mm-leaf" data-mm-item><span class="mm-bubble mm-bubble-leaf"><span class="mm-dot" aria-hidden="true"></span><span class="mm-label">Telegram / WhatsApp delivery</span></span></li>
+                          <li class="mm-node mm-leaf" data-mm-item><span class="mm-bubble mm-bubble-leaf"><span class="mm-dot" aria-hidden="true"></span><span class="mm-label">Business text alerts</span></span></li>
+                        </ul>
+                      </li>
+                      <li class="mm-node" data-mm-item>
+                        <button class="mm-bubble mm-bubble-sub" type="button" data-mm-toggle aria-expanded="false">
+                          <span class="mm-dot" aria-hidden="true"></span>
+                          <span class="mm-label">Interactive assistant</span>
+                          <span class="mm-chev" aria-hidden="true">+</span>
+                        </button>
+                        <ul class="mm-children" data-mm-children>
+                          <li class="mm-node mm-leaf" data-mm-item><span class="mm-bubble mm-bubble-leaf"><span class="mm-dot" aria-hidden="true"></span><span class="mm-label">Drafted high-ticket responses</span></span></li>
+                          <li class="mm-node mm-leaf" data-mm-item><span class="mm-bubble mm-bubble-leaf"><span class="mm-dot" aria-hidden="true"></span><span class="mm-label">Voice note commands</span></span></li>
+                          <li class="mm-node mm-leaf" data-mm-item><span class="mm-bubble mm-bubble-leaf"><span class="mm-dot" aria-hidden="true"></span><span class="mm-label">Triggered onboarding</span></span></li>
+                        </ul>
+                      </li>
+                    </ul>
+                  </li>
+
+                  <li class="mm-node" data-mm-item>
+                    <button class="mm-bubble mm-bubble-branch" type="button" data-mm-toggle aria-expanded="false">
+                      <span class="mm-dot" aria-hidden="true"></span>
+                      <span class="mm-label">Core advantages</span>
+                      <span class="mm-chev" aria-hidden="true">+</span>
+                    </button>
+                    <ul class="mm-children" data-mm-children>
+                      <li class="mm-node mm-leaf" data-mm-item><span class="mm-bubble mm-bubble-leaf"><span class="mm-dot" aria-hidden="true"></span><span class="mm-label">Bespoke architecture</span></span></li>
+                      <li class="mm-node mm-leaf" data-mm-item><span class="mm-bubble mm-bubble-leaf"><span class="mm-dot" aria-hidden="true"></span><span class="mm-label">Zero hiring overhead</span></span></li>
+                      <li class="mm-node mm-leaf" data-mm-item><span class="mm-bubble mm-bubble-leaf"><span class="mm-dot" aria-hidden="true"></span><span class="mm-label">Cognitive energy recovery</span></span></li>
+                      <li class="mm-node mm-leaf" data-mm-item><span class="mm-bubble mm-bubble-leaf"><span class="mm-dot" aria-hidden="true"></span><span class="mm-label">Eliminated repetitive loops</span></span></li>
+                    </ul>
+                  </li>
+                </ul>
+              </li>
+            </ul>
+          </div>
+          <p class="map-hint">Tap a bubble to open it up.</p>
         </div>
       </section>
 
