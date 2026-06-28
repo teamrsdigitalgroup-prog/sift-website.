@@ -230,6 +230,66 @@ h3 {
   margin-top: 34px;
 }
 
+.hero-video-wrapper {
+  position: relative;
+  margin-top: 34px;
+  border-radius: 12px;
+  padding: 1px;
+  background: linear-gradient(135deg, rgba(255, 107, 53, 0.4), rgba(237, 234, 227, 0.06));
+  box-shadow: var(--shadow-deep), 0 0 32px rgba(255, 107, 53, 0.14);
+}
+
+.hero-video-inner {
+  position: relative;
+  width: 100%;
+  padding-bottom: 56.25%;
+  height: 0;
+  overflow: hidden;
+  border-radius: 11px;
+  background: var(--bg-base);
+}
+
+.hero-video-inner iframe {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  border: 0;
+}
+
+/* Transparent overlay blocks clicks (no jump-to-YouTube on tap) without
+   disabling the iframe itself, so the JS play/pause postMessage calls still work. */
+.hero-video-inner::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .hero-video-wrapper {
+    box-shadow: none;
+  }
+
+  .hero-video-inner iframe {
+    display: none;
+  }
+
+  .hero-video-inner::before {
+    content: "Video paused for reduced motion";
+    position: absolute;
+    inset: 0;
+    display: grid;
+    place-items: center;
+    padding: 24px;
+    color: var(--text-muted);
+    font-family: var(--font-mono);
+    font-size: 0.8rem;
+    text-align: center;
+    background: var(--surface-soft);
+  }
+}
+
 .chat-card {
   overflow: hidden;
   border: 1px solid var(--border-hairline);
@@ -1059,6 +1119,10 @@ button.mm-bubble:hover {
 
   .section-pad {
     padding: 72px 0;
+  }
+
+  .hero-video-wrapper {
+    margin-top: 26px;
   }
 
   .nav-shell {

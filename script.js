@@ -157,4 +157,29 @@ if (mindmap) {
   });
 }
 
+// Pause the hero video's YouTube player when it scrolls out of view, resume when
+// it scrolls back in. Requires enablejsapi=1 on the iframe src to work.
+const heroVideoWrapper = document.querySelector(".hero-video-wrapper");
+
+if (heroVideoWrapper && !motionQuery.matches && "IntersectionObserver" in window) {
+  const iframe = heroVideoWrapper.querySelector("iframe");
+
+  if (iframe) {
+    const postPlayerCommand = (func) => {
+      iframe.contentWindow?.postMessage(JSON.stringify({ event: "command", func, args: [] }), "*");
+    };
+
+    const videoObserver = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          postPlayerCommand(entry.isIntersecting ? "playVideo" : "pauseVideo");
+        });
+      },
+      { threshold: 0.2 }
+    );
+
+    videoObserver.observe(heroVideoWrapper);
+  }
+}
+
 
