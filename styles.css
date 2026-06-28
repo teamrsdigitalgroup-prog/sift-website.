@@ -654,13 +654,19 @@ h3 {
   color: var(--text-primary);
 }
 
-.reveal {
+.reveal,
+.reveal.is-visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.js-enabled .reveal {
   opacity: 0;
   transform: translateY(18px);
   transition: opacity 520ms ease, transform 520ms ease;
 }
 
-.reveal.is-visible {
+.js-enabled .reveal.is-visible {
   opacity: 1;
   transform: translateY(0);
 }
