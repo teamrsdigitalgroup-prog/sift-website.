@@ -5,6 +5,13 @@ const revealItems = document.querySelectorAll(".reveal");
 const marqueeTrack = document.querySelector(".marquee-track");
 const countItems = document.querySelectorAll("[data-count]");
 const motionQuery = window.matchMedia("(prefers-reduced-motion: reduce)");
+const demoSteps = Array.from(document.querySelectorAll("[data-demo-step]"));
+const demoToggle = document.querySelector("[data-demo-toggle]");
+const demoIcon = document.querySelector("[data-demo-icon]");
+const demoDelays = [700, 900, 2200, 900, 1200, 1900, 1000];
+let demoTimer;
+let demoIndex = 0;
+let demoPaused = false;
 
 const updateHeader = () => {
   header.classList.toggle("is-scrolled", window.scrollY > 12);
@@ -44,6 +51,49 @@ const countUp = (item) => {
 
 const startCounts = () => {
   countItems.forEach(countUp);
+};
+
+const showFinalDemoState = () => {
+  window.clearTimeout(demoTimer);
+  demoSteps.forEach((step) => step.classList.add("is-done"));
+};
+
+const resetDemo = () => {
+  demoSteps.forEach((step) => step.classList.remove("is-active", "is-done"));
+  demoIndex = 0;
+};
+
+const runDemoStep = () => {
+  if (demoPaused || motionQuery.matches || demoSteps.length === 0) return;
+
+  if (demoIndex === 0) {
+    resetDemo();
+  }
+
+  const step = demoSteps[demoIndex];
+  step.classList.add("is-active", "is-done");
+  demoIndex += 1;
+
+  const delay = demoDelays[demoIndex - 1] || 900;
+
+  if (demoIndex >= demoSteps.length) {
+    demoTimer = window.setTimeout(() => {
+      demoIndex = 0;
+      runDemoStep();
+    }, 2600);
+  } else {
+    demoTimer = window.setTimeout(runDemoStep, delay);
+  }
+};
+
+const startDemo = () => {
+  if (motionQuery.matches) {
+    showFinalDemoState();
+    return;
+  }
+
+  window.clearTimeout(demoTimer);
+  runDemoStep();
 };
 
 updateHeader();
@@ -91,6 +141,24 @@ window.addEventListener("pageshow", revealAll, { once: true });
 window.addEventListener("load", revealAll, { once: true });
 window.setTimeout(revealAll, 1200);
 window.setTimeout(startCounts, 1400);
+window.setTimeout(startDemo, 500);
+
+if (demoToggle) {
+  demoToggle.addEventListener("click", () => {
+    demoPaused = !demoPaused;
+    demoToggle.classList.toggle("is-paused", demoPaused);
+    demoToggle.setAttribute("aria-label", demoPaused ? "Play hero demo" : "Pause hero demo");
+    if (demoIcon) {
+      demoIcon.textContent = demoPaused ? "▶" : "Ⅱ";
+    }
+
+    if (demoPaused) {
+      window.clearTimeout(demoTimer);
+    } else {
+      runDemoStep();
+    }
+  });
+}
 
 if (marqueeTrack) {
   const cards = Array.from(marqueeTrack.children);
@@ -100,132 +168,3 @@ if (marqueeTrack) {
     marqueeTrack.appendChild(clone);
   });
 }
-
-const mindmap = document.querySelector("[data-mindmap]");
-
-if (mindmap) {
-  const toggles = mindmap.querySelectorAll("[data-mm-toggle]");
-
-  const setHeight = (childrenEl) => {
-    childrenEl.style.maxHeight = `${childrenEl.scrollHeight}px`;
-  };
-
-  const recalcAllOpenAncestorsOf = (item) => {
-    let current = item;
-    while (current) {
-      const childrenEl = current.querySelector(":scope > [data-mm-children]");
-      if (childrenEl && current.classList.contains("mm-item-open")) {
-        setHeight(childrenEl);
-      }
-      const parentChildren = current.parentElement?.closest("[data-mm-children]");
-      current = parentChildren ? parentChildren.closest("[data-mm-item]") : null;
-    }
-  };
-
-  toggles.forEach((toggle) => {
-    toggle.addEventListener("click", () => {
-      const item = toggle.closest("[data-mm-item]");
-      if (!item) return;
-
-      const isOpen = item.classList.contains("mm-item-open");
-      const willOpen = !isOpen;
-      item.classList.toggle("mm-item-open", willOpen);
-      toggle.setAttribute("aria-expanded", String(willOpen));
-
-      const childrenEl = item.querySelector(":scope > [data-mm-children]");
-
-      if (willOpen && childrenEl) {
-        const items = Array.from(childrenEl.children);
-        items.forEach((child, index) => {
-          child.style.transitionDelay = motionQuery.matches ? "0ms" : `${index * 70}ms`;
-        });
-        setHeight(childrenEl);
-      } else if (childrenEl) {
-        childrenEl.style.maxHeight = "0px";
-      }
-
-      // Walk up: every open ancestor's max-height must grow/shrink to fit this change.
-      recalcAllOpenAncestorsOf(item.parentElement?.closest("[data-mm-item]"));
-
-      // After the transition finishes, re-measure once more in case fonts/layout shifted.
-      window.setTimeout(() => recalcAllOpenAncestorsOf(item), 600);
-    });
-  });
-
-  window.addEventListener("resize", () => {
-    mindmap.querySelectorAll(".mm-item-open > [data-mm-children]").forEach(setHeight);
-  });
-}
-
-// Hero video: click anywhere on it to toggle play/pause, tap the corner button to
-// unmute. Pauses automatically when scrolled out of view, resumes when scrolled back
-// in (but only if the person hadn't manually paused it). Requires enablejsapi=1.
-const heroVideoWrapper = document.querySelector("[data-video-wrapper]");
-
-if (heroVideoWrapper) {
-  const iframe = heroVideoWrapper.querySelector("[data-video-frame]");
-  const toggleButton = heroVideoWrapper.querySelector("[data-video-toggle]");
-  const unmuteButton = heroVideoWrapper.querySelector("[data-video-unmute]");
-
-  if (iframe) {
-    let isPlaying = true;
-    let isMuted = true;
-    let manuallyPaused = false;
-
-    const postPlayerCommand = (func, args = []) => {
-      iframe.contentWindow?.postMessage(JSON.stringify({ event: "command", func, args }), "*");
-    };
-
-    if (toggleButton) {
-      toggleButton.addEventListener("click", () => {
-        if (isPlaying) {
-          postPlayerCommand("pauseVideo");
-          isPlaying = false;
-          manuallyPaused = true;
-        } else {
-          postPlayerCommand("playVideo");
-          isPlaying = true;
-          manuallyPaused = false;
-        }
-      });
-    }
-
-    if (unmuteButton) {
-      unmuteButton.addEventListener("click", (event) => {
-        event.stopPropagation();
-        if (isMuted) {
-          postPlayerCommand("unMute");
-          postPlayerCommand("setVolume", [100]);
-          isMuted = false;
-        } else {
-          postPlayerCommand("mute");
-          isMuted = true;
-        }
-        unmuteButton.setAttribute("aria-pressed", String(!isMuted));
-        unmuteButton.setAttribute("aria-label", isMuted ? "Unmute video" : "Mute video");
-      });
-    }
-
-    if (!motionQuery.matches && "IntersectionObserver" in window) {
-      const videoObserver = new IntersectionObserver(
-        (entries) => {
-          entries.forEach((entry) => {
-            if (manuallyPaused) return;
-            if (entry.isIntersecting) {
-              postPlayerCommand("playVideo");
-              isPlaying = true;
-            } else {
-              postPlayerCommand("pauseVideo");
-              isPlaying = false;
-            }
-          });
-        },
-        { threshold: 0.2 }
-      );
-
-      videoObserver.observe(heroVideoWrapper);
-    }
-  }
-}
-
-
